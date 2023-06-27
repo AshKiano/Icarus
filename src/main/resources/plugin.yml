@@ -1,0 +1,7 @@
+name: Icarus
+version: '${project.version}'
+main: com.ashkiano.icarus.Icarus
+api-version: '1.16'
+authors: [AshKiano]
+description: The Icarus plugin for Minecraft sets players on fire if they exceed a pre-set height, adding a unique challenge to flying within the game.
+website: https://www.ashkiano.com
