@@ -7,19 +7,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//TODO udělat v configu na jak dlouho má být zapálen
-//TODO udělat možnost vypsat hlášku s tím že bude zapálen a configurovat výšky hlášek
-//TODO přidat že kdo má permisi nebude zapálen
-//TODO přidat na git a odkaz do spigotu
+//TODO udělat překlady
+//TODO configurovat výšky hlášek
+//TODO udelat permisi configurovatelnou
 //inspired by https://www.spigotmc.org/resources/icarus.62287/
 public class Icarus extends JavaPlugin implements Listener {
     private int maxHeight;
+    private int fireDuration;
+    private String fireMessage;
+    private boolean shouldDisplayMessage;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
         FileConfiguration config = this.getConfig();
         maxHeight = config.getInt("max-height");
+        fireDuration = config.getInt("fire-duration");
+        fireMessage = config.getString("fire-message");
+        shouldDisplayMessage = config.getBoolean("display-message");
         getServer().getPluginManager().registerEvents(this, this);
         Metrics metrics = new Metrics(this, 18887);
     }
@@ -27,8 +32,10 @@ public class Icarus extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        if (player.hasPermission("icarus.bypass")) return;
         if (player.getLocation().getBlockY() > maxHeight) {
-            player.setFireTicks(20 * 5);  // This will set the player on fire for 5 seconds
+            player.setFireTicks(20 * fireDuration);
+            if (shouldDisplayMessage) player.sendMessage(fireMessage);
         }
     }
 }

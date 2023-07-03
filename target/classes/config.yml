@@ -1,2 +1,5 @@
 # Maximum height a player can reach before being set on fire
 max-height: 256
+fire-duration: 5  # Number of seconds a player should be set on fire
+fire-message: "You flew too close to the sun!"  # Message to be sent to player
+display-message: true  # Whether the message should be displayed or not
