@@ -1,5 +1,14 @@
 # Maximum height a player can reach before being set on fire
 max-height: 256
-fire-duration: 5  # Number of seconds a player should be set on fire
-fire-message: "You flew too close to the sun!"  # Message to be sent to player
-display-message: true  # Whether the message should be displayed or not
+
+# The duration for which a player will be set on fire
+fire-duration: 5
+
+# Message to be sent to player
+fire-message: "You flew too close to the sun!"
+
+# Whether the message should be displayed or not
+display-message: true
+
+# The permission that allows a player to bypass the height limit and avoid being set on fire
+bypass-permission: "icarus.bypass"

@@ -11,30 +11,47 @@ import org.bukkit.plugin.java.JavaPlugin;
 //TODO configurovat výšky hlášek
 //TODO udelat permisi configurovatelnou
 //inspired by https://www.spigotmc.org/resources/icarus.62287/
+
+// The main class of the plugin, implementing the Listener interface to listen to events
 public class Icarus extends JavaPlugin implements Listener {
+    // Variables to hold plugin configuration options
     private int maxHeight;
     private int fireDuration;
     private String fireMessage;
     private boolean shouldDisplayMessage;
+    private String bypassPermission; // This will hold the bypass permission set in the config file
 
+    // Called when the plugin is enabled
     @Override
     public void onEnable() {
+        // Save a copy of the default config.yml if one is not there
         this.saveDefaultConfig();
+        // Get the FileConfiguration object
         FileConfiguration config = this.getConfig();
+        // Load values from the config file into our variables
         maxHeight = config.getInt("max-height");
         fireDuration = config.getInt("fire-duration");
         fireMessage = config.getString("fire-message");
         shouldDisplayMessage = config.getBoolean("display-message");
+        // Load the bypass permission from the config file, defaulting to "icarus.bypass" if it's not there
+        bypassPermission = config.getString("bypass-permission", "icarus.bypass");
+        // Register the event listener
         getServer().getPluginManager().registerEvents(this, this);
+        // Setup metrics for the plugin
         Metrics metrics = new Metrics(this, 18887);
     }
 
+    // Called when a player moves
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+        // Get the Player who moved
         Player player = event.getPlayer();
-        if (player.hasPermission("icarus.bypass")) return;
+        // If the player has the bypass permission, do nothing
+        if (player.hasPermission(bypassPermission)) return;
+        // If the player's Y position is greater than maxHeight, set them on fire
         if (player.getLocation().getBlockY() > maxHeight) {
             player.setFireTicks(20 * fireDuration);
+            // If shouldDisplayMessage is true, send the player a message
             if (shouldDisplayMessage) player.sendMessage(fireMessage);
         }
     }
