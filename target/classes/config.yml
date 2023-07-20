@@ -12,3 +12,8 @@ display-message: true
 
 # The permission that allows a player to bypass the height limit and avoid being set on fire
 bypass-permission: "icarus.bypass"
+
+# Height at which a warning message should be displayed
+message-height: 240
+# Warning message to be displayed when a player reaches the warning height
+message: "You are getting too high!"
