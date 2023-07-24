@@ -1,5 +1,7 @@
 package com.ashkiano.icarus;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,9 +10,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 //TODO udělat překlady
-//TODO configurovat výšky hlášek
 //inspired by https://www.spigotmc.org/resources/icarus.62287/
-
 // The main class of the plugin, implementing the Listener interface to listen to events
 public class Icarus extends JavaPlugin implements Listener {
     // Variables to hold plugin configuration options
@@ -21,7 +21,7 @@ public class Icarus extends JavaPlugin implements Listener {
     private int messageHeight;
     private String message;
     private String bypassPermission; // This will hold the bypass permission set in the config file
-
+    private String reloadPermission; // This will hold the reload permission set in the config file
     // Called when the plugin is enabled
     @Override
     public void onEnable() {
@@ -38,6 +38,7 @@ public class Icarus extends JavaPlugin implements Listener {
         message = config.getString("message");
         // Load the bypass permission from the config file, defaulting to "icarus.bypass" if it's not there
         bypassPermission = config.getString("bypass-permission", "icarus.bypass");
+        reloadPermission = config.getString("reload-permission", "icarus.reload"); // Load the reload permission from the config file
         // Register the event listener
         getServer().getPluginManager().registerEvents(this, this);
         // Setup metrics for the plugin
@@ -61,5 +62,17 @@ public class Icarus extends JavaPlugin implements Listener {
         else if (player.getLocation().getBlockY() > messageHeight) {
             player.sendMessage(message);
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("icarus") && sender.hasPermission(reloadPermission)) {
+            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+                reloadConfig();
+                sender.sendMessage("Icarus configuration reloaded.");
+                return true;
+            }
+        }
+        return false;
     }
 }
