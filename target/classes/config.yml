@@ -1,3 +1,8 @@
+# Whether to show the donation request message in the server console on plugin startup.
+# The message encourages server administrators to make a donation to support the development at: https://donate.ashkiano.com
+# Set to true to display the message in the console, set to false to hide it.
+ShowDonateMessage: true
+
 # Maximum height a player can reach before being set on fire
 max-height: 256
 

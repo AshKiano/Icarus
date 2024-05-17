@@ -44,7 +44,10 @@ public class Icarus extends JavaPlugin implements Listener {
         // Setup metrics for the plugin
         Metrics metrics = new Metrics(this, 18887);
 
-        this.getLogger().info("Thank you for using the Icarus plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://donate.ashkiano.com");
+        boolean showDonateMessage = getConfig().getBoolean("ShowDonateMessage", true);
+        if (showDonateMessage) {
+            this.getLogger().info("Thank you for using the Icarus plugin! If you enjoy using this plugin, please consider making a donation to support the development. You can donate at: https://donate.ashkiano.com");
+        }
     }
 
     // Called when a player moves
