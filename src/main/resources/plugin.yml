@@ -7,5 +7,24 @@ description: The Icarus plugin for Minecraft sets players on fire if they exceed
 website: https://www.ashkiano.com
 commands:
   icarus:
-    description: Reloads the Icarus plugin configuration
+    description: Reloads the Icarus plugin configuration.
     usage: /icarus reload
+    permission: icarus.reload
+  uploadconfig:
+    description: Uploads the current config.yml to the backend server.
+    usage: /icarus uploadconfig
+    permission: icarus.upload
+  downloadconfig:
+    description: Downloads a YAML config file from a given URL and sets it as the plugin's configuration.
+    usage: /icarus downloadconfig <url>
+    permission: icarus.download
+permissions:
+  icarus.reload:
+    description: Allows the player to reload the Icarus configuration.
+    default: op
+  icarus.upload:
+    description: Allows the player to upload the Icarus configuration to the backend server.
+    default: op
+  icarus.download:
+    description: Allows the player to download a YAML config file from a given URL and set it as the plugin's configuration.
+    default: op
